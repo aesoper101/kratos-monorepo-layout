@@ -1,0 +1,30 @@
+syntax = "proto3";
+package kratos.api;
+
+option go_package = "github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/conf;conf";
+
+import "kratos/conf/database.proto";
+import "kratos/conf/server.proto";
+import "kratos/conf/logger.proto";
+import "kratos/conf/other.proto";
+import "kratos/conf/registry.proto";
+
+message Bootstrap {
+  Server server = 1;
+  Data data = 2;
+  optional kratos.conf.Log log = 3;
+  optional kratos.conf.Tracer tracer = 4;
+  optional kratos.conf.Registry registry = 5;
+  optional kratos.conf.OpenSergo opensergo = 6;
+  optional kratos.conf.Sentry sentry = 7;
+}
+
+message Server {
+  kratos.conf.HTTP http = 1;
+  kratos.conf.GRPC grpc = 2;
+}
+
+message Data {
+  kratos.conf.Database database = 1;
+  kratos.conf.Redis redis = 2;
+}

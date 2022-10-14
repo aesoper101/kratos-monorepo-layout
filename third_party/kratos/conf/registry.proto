@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package kratos.conf;
+
+option go_package = "github.com/aesoper101/kratos-utils/protobuf/types/confpb;confpb";
+
+import "google/protobuf/duration.proto";
+
+message Registry {
+  optional EtcdConfig etcd = 1;
+  optional ConsulConfig consul = 2;
+  optional DiscoveryConfig discovery = 3;
+  optional NacosConfig nacos = 4;
+  optional PolarisConfig polaris = 5;
+  optional ZookeeperConfig zookeeper = 6;
+}
+
+message Discovery {
+  optional EtcdConfig etcd = 1;
+  optional ConsulConfig consul = 2;
+  optional DiscoveryConfig discovery = 3;
+  optional NacosConfig nacos = 4;
+  optional PolarisConfig polaris = 5;
+  optional ZookeeperConfig zookeeper = 6;
+}
+
+message EtcdConfig{
+  repeated string endpoints = 1;
+  optional string username = 2;
+  optional string password = 3;
+  optional google.protobuf.Duration  timeout = 10;
+}
+
+message ConsulConfig {
+  repeated string endpoints = 1;
+  optional string username = 2;
+  optional string password = 3;
+  optional google.protobuf.Duration  timeout = 10;
+}
+
+message DiscoveryConfig {
+  repeated string endpoints = 1;
+  string region = 2;
+  string env = 3;
+  string zone = 4;
+  string host = 5;
+}
+
+message NacosConfig {
+  repeated string endpoints = 1;
+  optional string username = 2;
+  optional string password = 3;
+  optional google.protobuf.Duration  timeout = 10;
+}
+
+message PolarisConfig {
+  repeated string endpoints = 1;
+  optional string namespace = 2;
+  optional string  service_token = 3;
+  optional string  protocol = 4;
+  optional int64  weight = 5;
+  //  optional int64 priority = 6;
+  optional bool  healthy = 6;
+  optional bool  heartbeat = 7;
+  optional bool   isolate = 8;
+  optional int64   ttl = 9;
+  optional google.protobuf.Duration  timeout = 10;
+  optional int64  retry_count = 11;
+}
+
+message ZookeeperConfig {
+  repeated string endpoints = 1;
+  optional string namespace = 2;
+  optional string username = 3;
+  optional string password = 4;
+  optional google.protobuf.Duration  timeout = 5;
+}

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package kratos.conf;
+
+option go_package = "github.com/aesoper101/kratos-utils/protobuf/types/confpb;confpb";
+
+message Queue {
+
+}
+
+message Tracer {
+  string endpoint = 1;
+  string env = 2;
+}
+
+
+
+message OpenSergo {
+  string endpoint = 1;
+}
+
+message Sentry {
+  string dsn = 1;
+  optional string server_name = 2;
+  optional string release = 3;
+  optional string environment = 4;
+  optional bool attach_stack_trace = 5;
+}

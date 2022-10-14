@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package kratos.conf;
+
+option go_package = "github.com/aesoper101/kratos-utils/protobuf/types/confpb;confpb";
+
+import "google/protobuf/duration.proto";
+
+message HTTP {
+  string network = 1;
+  string addr = 2;
+  google.protobuf.Duration timeout = 3;
+  bool pprof_enabled = 4;
+  bool metrics_enabled = 5;
+  bool swagger_enabled = 6;
+}
+
+message GRPC {
+  string network = 1;
+  string addr = 2;
+  google.protobuf.Duration timeout = 3;
+}
+

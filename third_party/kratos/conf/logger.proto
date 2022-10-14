@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package kratos.conf;
+
+option go_package = "github.com/aesoper101/kratos-utils/protobuf/types/confpb;confpb";
+
+import "google/protobuf/duration.proto";
+
+
+message Log {
+  optional int32 filter_level = 1;
+
+  oneof setting {
+    ZapLog zap = 2;
+    FluentLog fluent = 3;
+    AliyunLog aliyun = 4;
+    LogrusLog logrus = 5;
+  }
+}
+
+
+
+message ZapLog{
+  // json | text
+  string formatter = 1;
+
+  KafkaHook kafka = 2;
+
+  FileHook file = 3;
+}
+
+
+
+message LogrusLog {
+  // json | text
+  string formatter = 1;
+
+  KafkaHook kafka = 2;
+
+  FileHook file = 3;
+
+}
+
+message KafkaHook {
+  string id = 1;
+
+  repeated string brokers = 2;
+
+  string default_topic = 3;
+}
+
+
+message FileHook {
+  string path = 1 ;
+
+  string filename = 2;
+
+  google.protobuf.Duration max_age = 3;
+
+  google.protobuf.Duration rotation_time = 4;
+
+  // %Y%m%d
+  string pattern = 5;
+}
+
+message FluentLog {
+  string addr = 1;
+  google.protobuf.Duration timeout = 2;
+  google.protobuf.Duration   write_timeout = 3;
+  int64  buffer_limit = 4;
+  int64  retry_wait = 5;
+  int64  max_retry = 6;
+  int64  maxRetry_wait = 7;
+  string tag_prefix = 8;
+  bool   async = 9;
+  bool   force_stop_async_send = 10;
+}
+
+message AliyunLog {
+  string access_key = 1;
+  string access_secret = 2;
+  string endpoint = 3;
+  string project = 4;
+  string logstore = 5;
+}
+

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package api.helloworld.v1;
+
+option go_package = "kratos-monorepo-layout/api/helloworld/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.helloworld.v1";
+
+enum ErrorReason {
+  GEETER_UNSPECIFIED = 0;
+  USER_NOT_FOUND = 1;
+}
