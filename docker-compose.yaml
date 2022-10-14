@@ -1,0 +1,43 @@
+version: "3.7"
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    container_name: mysql
+    privileged: true
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_bin
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+    environment:
+      MYSQL_ROOT_PASSWORD: "Abc123654"
+      MYSQL_USER: "test"
+      MYSQL_PASSWORD: "Abc123654"
+      MYSQL_INITDB_SKIP_TZINFO: "Asia/Shanghai"
+      MYSQL_DATABASE: "testdb"
+      TZ: Asia/Shanghai
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+#    volumes:
+#      # 数据挂载
+#      - /root/mysql/data/:/var/lib/mysql/
+#      # 配置挂载
+#      - /root/mysql/conf/:/etc/mysql/conf.d/
+#      # 初始化目录挂载
+#      - /root/mysql/init/:/docker-entrypoint-initdb.d/
+
+  hellword:
+    build:
+      context: ./
+      dockerfile: ./app/helloworld/Dockerfile
+    image: helloworld:1.0.0
+    restart: always
+    privileged: true
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+    volumes:
+      - /data/conf:./app/helloworld/configs
