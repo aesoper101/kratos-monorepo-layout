@@ -10,15 +10,35 @@ import "google/protobuf/duration.proto";
 message Database {
   string driver = 1;
   string source = 2;
-  int64 max_idle_count = 3;
-  int64 max_open = 4;
-  google.protobuf.Duration  max_life_time = 5;
-  google.protobuf.Duration  max_idle_time  = 6;
+  optional int64 max_idle_count = 3;
+  optional int64 max_open = 4;
+  optional google.protobuf.Duration  max_life_time = 5;
+  optional google.protobuf.Duration  max_idle_time  = 6;
 }
 
 message Redis {
-  string network = 1;
-  string addr = 2 ;
-  google.protobuf.Duration read_timeout = 3;
-  google.protobuf.Duration write_timeout = 4;
+  optional string network = 1;
+  string addr = 2;
+  optional string username = 3;
+  optional string password = 5;
+  optional int32 db = 6;
+  optional google.protobuf.Duration dial_timeout = 7;
+  optional google.protobuf.Duration read_timeout = 8;
+  optional google.protobuf.Duration write_timeout = 9;
+  optional int32 pool_size = 10;
+  optional google.protobuf.Duration pool_timeout = 11;
+}
+
+
+message RedisCluster {
+  optional string network = 1;
+  repeated string addr = 2;
+  optional string username = 3;
+  optional string password = 5;
+  optional int32 db = 6;
+  optional google.protobuf.Duration dial_timeout = 7;
+  optional google.protobuf.Duration read_timeout = 8;
+  optional google.protobuf.Duration write_timeout = 9;
+  optional int32 pool_size = 10;
+  optional google.protobuf.Duration pool_timeout = 11;
 }
