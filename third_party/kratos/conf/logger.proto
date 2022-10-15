@@ -16,6 +16,9 @@ message Log {
     AliyunLog aliyun = 4;
     LogrusLog logrus = 5;
   }
+
+
+  optional bool debug = 6;
 }
 
 
