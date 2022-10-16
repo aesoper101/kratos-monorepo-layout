@@ -5,10 +5,10 @@ import (
 	v1 "github.com/aesoper101/kratos-monorepo-layout/api/helloworld/v1"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/conf"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/service"
-	"github.com/aesoper101/kratos-utils/encoder"
-	"github.com/aesoper101/kratos-utils/middleware/metrics"
-	"github.com/aesoper101/kratos-utils/middleware/requestid"
-	"github.com/aesoper101/kratos-utils/pkg"
+	"github.com/aesoper101/kratos-utils/pkg/encoder"
+	"github.com/aesoper101/kratos-utils/pkg/middleware/metrics"
+	"github.com/aesoper101/kratos-utils/pkg/middleware/requestid"
+	"github.com/aesoper101/kratos-utils/pkg/network"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/middleware/metadata"
@@ -43,6 +43,7 @@ func NewHTTPServer(c *conf.Server, services *service.Services, logger log.Logger
 			handlers.AllowedMethods([]string{"GET", "POST"}),
 		)),
 		http.ResponseEncoder(encoder.ApiEncodeResponse()),
+		http.ErrorEncoder(encoder.ApiErrorEncoder()),
 	}
 
 	if c.Http.Network != "" {
@@ -55,14 +56,14 @@ func NewHTTPServer(c *conf.Server, services *service.Services, logger log.Logger
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 	if tlsCfg := c.Http.GetTls(); tlsCfg != nil {
-		opts = append(opts, http.TLSConfig(pkg.InitTLSConfig(tlsCfg)))
+		opts = append(opts, http.TLSConfig(network.InitTLSConfig(tlsCfg)))
 	}
 
 	srv := http.NewServer(opts...)
 	v1.RegisterGreeterHTTPServer(srv, services.GreeterService)
 
-	pkg.RegisterPprof(srv, c.Http.GetPprof())
-	pkg.RegisterMetrics(srv, c.Http.GetMetrics())
-	pkg.RegisterSwagger(srv, c.Http.GetSwagger())
+	network.RegisterPprof(srv, c.Http.GetPprof())
+	network.RegisterMetrics(srv, c.Http.GetMetrics())
+	network.RegisterSwagger(srv, c.Http.GetSwagger())
 	return srv
 }
