@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	entgo.io/ent v0.11.3
-	github.com/aesoper101/kratos-utils v0.0.0-20221016033941-9f2af4a6a0ea
+	github.com/aesoper101/kratos-utils v0.0.0-20221017105352-118842421058
 	github.com/go-kratos/kratos/v2 v2.5.1
 	github.com/go-kratos/sentry v0.0.0-20211021071616-de3a2011c4e4
 	github.com/go-sql-driver/mysql v1.6.0
@@ -52,7 +52,7 @@ require (
 	github.com/go-kratos/kratos/contrib/log/aliyun/v2 v2.0.0-20220826025402-b354f185c044 // indirect
 	github.com/go-kratos/kratos/contrib/log/fluent/v2 v2.0.0-20220826025402-b354f185c044 // indirect
 	github.com/go-kratos/kratos/contrib/metrics/prometheus/v2 v2.0.0-20221012112139-b5cd1c693d04 // indirect
-	github.com/go-kratos/kratos/contrib/opensergo/v2 v2.0.0-20221014030943-7a99e8bbdc01 // indirect
+	github.com/go-kratos/kratos/contrib/opensergo/v2 v2.0.0-20221016133001-d82d607c21e9 // indirect
 	github.com/go-kratos/kratos/contrib/registry/consul/v2 v2.0.0-20220901152127-39536d32795f // indirect
 	github.com/go-kratos/kratos/contrib/registry/discovery/v2 v2.0.0-20220901152127-39536d32795f // indirect
 	github.com/go-kratos/kratos/contrib/registry/etcd/v2 v2.0.0-20220901152127-39536d32795f // indirect

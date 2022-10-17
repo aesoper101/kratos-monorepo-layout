@@ -58,8 +58,8 @@ github.com/StackExchange/wmi v1.2.1/go.mod h1:rcmrprowKIVzvc+NUiLncP2uuArMWLCbu9
 github.com/VividCortex/gohistogram v1.0.0/go.mod h1:Pf5mBqqDxYaXu3hDrrU+w6nw50o/4+TcAqDqk/vUH7g=
 github.com/aesoper101/go-utils v0.0.0-20220803075833-0a6959df6214 h1:z23xCUVW/P0v8RygsbIKtPlWy0e9dka7sQsXv/naUqI=
 github.com/aesoper101/go-utils v0.0.0-20220803075833-0a6959df6214/go.mod h1:1hL6h7tFVHppFe1at9E8pJNeL5JSVybtz51R3ysSVtw=
-github.com/aesoper101/kratos-utils v0.0.0-20221016033941-9f2af4a6a0ea h1:U7s/lIYpyrUziuBs7AneREuwbrNTQrL8+q48oZ/lgmI=
-github.com/aesoper101/kratos-utils v0.0.0-20221016033941-9f2af4a6a0ea/go.mod h1:rjZKVlNxtSKA0ghVSFJVbGw92nce6LWUJGGNgfSnKT4=
+github.com/aesoper101/kratos-utils v0.0.0-20221017105352-118842421058 h1:KBfST7BDOme5n/n55tvfej5/dOFsifyR4ODQEk8H6Ok=
+github.com/aesoper101/kratos-utils v0.0.0-20221017105352-118842421058/go.mod h1:5hyMLocCJ2rgUe7VInEZ9do/pX3jI7gPgUglOs+HYSQ=
 github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5/go.mod h1:SkGFH1ia65gfNATL8TAiHDNxPzPdmEL5uirI2Uyuz6c=
 github.com/agext/levenshtein v1.2.1 h1:QmvMAjj2aEICytGiWzmxoE0x2KZvE0fvmqMOfy2tjT8=
 github.com/agext/levenshtein v1.2.1/go.mod h1:JEDfjyjHDjOF/1e4FlBE/PkbqA9OfWu2ki2W0IB5558=
@@ -232,8 +232,8 @@ github.com/go-kratos/kratos/contrib/log/fluent/v2 v2.0.0-20220826025402-b354f185
 github.com/go-kratos/kratos/contrib/log/fluent/v2 v2.0.0-20220826025402-b354f185c044/go.mod h1:miQq4Yz/WM2XhkPFq8ms8TrWcYZuScs6AxXeXF4QzuQ=
 github.com/go-kratos/kratos/contrib/metrics/prometheus/v2 v2.0.0-20221012112139-b5cd1c693d04 h1:eoEogbf/yjrUaPW2wCbV1nwo1oCMw2ilqO/xe5wktOo=
 github.com/go-kratos/kratos/contrib/metrics/prometheus/v2 v2.0.0-20221012112139-b5cd1c693d04/go.mod h1:X+olmVc/Ete0UCY7/rtBaxz1ntOgj+CxFTDRiAAObus=
-github.com/go-kratos/kratos/contrib/opensergo/v2 v2.0.0-20221014030943-7a99e8bbdc01 h1:RatoS+hF3qEsOnbpkgAqAbjR08s7B8wu0eKNlOwXN2I=
-github.com/go-kratos/kratos/contrib/opensergo/v2 v2.0.0-20221014030943-7a99e8bbdc01/go.mod h1:k/nNhrzWvl3Zp6yfyv0mOefJk5Yzj5qB9/hTbBgnhME=
+github.com/go-kratos/kratos/contrib/opensergo/v2 v2.0.0-20221016133001-d82d607c21e9 h1:YwsKddQzcjJvJWMkIM9zhlp3hAzUfivxlZHmAqX0l3A=
+github.com/go-kratos/kratos/contrib/opensergo/v2 v2.0.0-20221016133001-d82d607c21e9/go.mod h1:k/nNhrzWvl3Zp6yfyv0mOefJk5Yzj5qB9/hTbBgnhME=
 github.com/go-kratos/kratos/contrib/registry/consul/v2 v2.0.0-20220901152127-39536d32795f h1:3iQcsQQJ2vvdvpC33sUFJQp3PpO5RQO2ZRyPaP97AHg=
 github.com/go-kratos/kratos/contrib/registry/consul/v2 v2.0.0-20220901152127-39536d32795f/go.mod h1:SNYO4YE1vcrE0EZgVWRBlH2/sGdZlhRy/33K5IZT3nw=
 github.com/go-kratos/kratos/contrib/registry/discovery/v2 v2.0.0-20220901152127-39536d32795f h1:1Gy/TWaZxAjCwUvyq57k4a+RTuuPLVmhJ6DPTbkbOYU=

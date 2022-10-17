@@ -7,7 +7,9 @@ import (
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/service"
 	"github.com/aesoper101/kratos-utils/pkg/encoder"
 	"github.com/aesoper101/kratos-utils/pkg/middleware/metrics"
+	"github.com/aesoper101/kratos-utils/pkg/middleware/realip"
 	"github.com/aesoper101/kratos-utils/pkg/middleware/requestid"
+	"github.com/aesoper101/kratos-utils/pkg/middleware/secure"
 	"github.com/aesoper101/kratos-utils/pkg/network"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/logging"
@@ -35,13 +37,17 @@ func NewHTTPServer(c *conf.Server, services *service.Services, logger log.Logger
 			ratelimit.Server(),
 			metadata.Server(),
 			requestid.Server(),
+			secure.Server(),
 			validate.Validator(),
 			metrics.Server(),
 		),
-		http.Filter(handlers.CORS(
-			handlers.AllowedOrigins([]string{"*"}),
-			handlers.AllowedMethods([]string{"GET", "POST"}),
-		)),
+		http.Filter(
+			handlers.CORS(
+				handlers.AllowedOrigins([]string{"*"}),
+				handlers.AllowedMethods([]string{"GET", "POST"}),
+			),
+			realip.Handler,
+		),
 		http.ResponseEncoder(encoder.ApiEncodeResponse()),
 		http.ErrorEncoder(encoder.ApiErrorEncoder()),
 	}
