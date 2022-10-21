@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	entsql "entgo.io/ent/dialect/sql"
+	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/biz"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/conf"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/migrate"
@@ -15,11 +16,15 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewGreeterRepo)
+var ProviderSet = wire.NewSet(NewData, NewTransaction, NewGreeterRepo)
 
 // Data .
 type Data struct {
 	db *ent.Client
+}
+
+func NewTransaction(data *Data) biz.Transaction {
+	return data
 }
 
 // NewData .
