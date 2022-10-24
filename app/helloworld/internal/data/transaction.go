@@ -6,24 +6,23 @@ import (
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent"
 )
 
-func (data *Data) InTx(ctx context.Context, f func(context.Context) error) error {
-	tx := ent.TxFromContext(ctx)
-	if tx != nil {
-		return f(ctx)
-	}
-
+func (data *Data) InTx(ctx context.Context, f func(*ent.Tx) error) error {
 	tx, err := data.db.Tx(ctx)
 	if err != nil {
-		return fmt.Errorf("starting transaction: %w", err)
-	}
-
-	if err = f(ent.NewTxContext(ctx, tx)); err != nil {
-		if err2 := tx.Rollback(); err2 != nil {
-			return fmt.Errorf("rolling back transaction: %v (original error: %w)", err2, err)
-		}
 		return err
 	}
 
+	defer func() {
+		if v := recover(); v != nil {
+			_ = tx.Rollback()
+		}
+	}()
+	if err := f(tx); err != nil {
+		if rerr := tx.Rollback(); rerr != nil {
+			err = fmt.Errorf("%w: rolling back transaction: %v", err, rerr)
+		}
+		return err
+	}
 	if err := tx.Commit(); err != nil {
 		return fmt.Errorf("committing transaction: %w", err)
 	}

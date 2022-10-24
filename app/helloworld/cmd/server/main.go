@@ -6,6 +6,7 @@ import (
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/conf"
 	"github.com/aesoper101/kratos-utils/bootstrap"
 	"github.com/aesoper101/kratos-utils/protobuf/types/confpb"
+	"github.com/spf13/cobra"
 	"os"
 
 	"github.com/go-kratos/kratos/v2"
@@ -14,20 +15,31 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/http"
 )
 
-// go build -ldflags "-X Service.Id=x.y.z"
+// Service go build -ldflags "-X Service.Id=x.y.z"
 var (
 	Service = bootstrap.NewServiceInfo(
 		"kratos.admin",
 		"1.0.0",
 		"",
 	)
-
-	rootCommand = bootstrap.NewRootCommand()
 )
 
-func init() {
-	rootCommand.Init()
-	rootCommand.SetRunCommandAction(runApp)
+func newRootCmd(args ...string) *cobra.Command {
+	commandName := os.Args[0]
+	if len(args) > 0 {
+		commandName = args[0]
+	}
+	cmd := &cobra.Command{
+		Use:   commandName,
+		Short: "Run and manage",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			var flags = bootstrap.GetFlags()
+			return runApp(*flags)
+		},
+	}
+
+	bootstrap.RegisterFlags(cmd.PersistentFlags())
+	return cmd
 }
 
 func newApp(logger log.Logger, hs *http.Server, gs *grpc.Server, rc *confpb.Registry) *kratos.App {
@@ -45,7 +57,7 @@ func newApp(logger log.Logger, hs *http.Server, gs *grpc.Server, rc *confpb.Regi
 	)
 }
 
-func runApp(cfg bootstrap.Config) error {
+func runApp(cfg bootstrap.ConfigFlags) error {
 	bc, cleanup, err := bootstrap.LoadConfig[conf.Bootstrap](cfg)
 	if err != nil {
 		return errors.New("load config failed")
@@ -80,7 +92,7 @@ func runApp(cfg bootstrap.Config) error {
 }
 
 func main() {
-	if err := rootCommand.Execute(); err != nil {
+	if err := newRootCmd().Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
