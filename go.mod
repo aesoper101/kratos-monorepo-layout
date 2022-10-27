@@ -4,13 +4,14 @@ go 1.18
 
 require (
 	entgo.io/ent v0.11.3
-	github.com/aesoper101/kratos-utils v0.0.0-20221027084721-af252431f0ec
+	github.com/aesoper101/kratos-utils v0.0.0-20221027093057-f7ade93facae
 	github.com/go-kratos/kratos/v2 v2.5.1
 	github.com/go-kratos/sentry v0.0.0-20211021071616-de3a2011c4e4
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/golang-jwt/jwt/v4 v4.4.1
 	github.com/google/wire v0.5.0
 	github.com/gorilla/handlers v1.5.1
+	github.com/lib/pq v1.10.7
 	github.com/mattn/go-sqlite3 v1.14.15
 	github.com/spf13/cobra v1.6.0
 	google.golang.org/genproto v0.0.0-20220524023933-508584e28198

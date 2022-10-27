@@ -60,8 +60,8 @@ github.com/StackExchange/wmi v1.2.1/go.mod h1:rcmrprowKIVzvc+NUiLncP2uuArMWLCbu9
 github.com/VividCortex/gohistogram v1.0.0/go.mod h1:Pf5mBqqDxYaXu3hDrrU+w6nw50o/4+TcAqDqk/vUH7g=
 github.com/aesoper101/go-utils v0.0.0-20220803075833-0a6959df6214 h1:z23xCUVW/P0v8RygsbIKtPlWy0e9dka7sQsXv/naUqI=
 github.com/aesoper101/go-utils v0.0.0-20220803075833-0a6959df6214/go.mod h1:1hL6h7tFVHppFe1at9E8pJNeL5JSVybtz51R3ysSVtw=
-github.com/aesoper101/kratos-utils v0.0.0-20221027084721-af252431f0ec h1:CQ5thHrG3U8lY5kxYjsXdWA7DQz86VOG5+8o+izud38=
-github.com/aesoper101/kratos-utils v0.0.0-20221027084721-af252431f0ec/go.mod h1:dOI6zQz+FyZoC0mWR300qBQJp6+qVvByjy7T18XUfTU=
+github.com/aesoper101/kratos-utils v0.0.0-20221027093057-f7ade93facae h1:717S6Y16VaBWklgSqABpraLlvgDpdQ+1Po2Xss+bdbU=
+github.com/aesoper101/kratos-utils v0.0.0-20221027093057-f7ade93facae/go.mod h1:dOI6zQz+FyZoC0mWR300qBQJp6+qVvByjy7T18XUfTU=
 github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5/go.mod h1:SkGFH1ia65gfNATL8TAiHDNxPzPdmEL5uirI2Uyuz6c=
 github.com/agext/levenshtein v1.2.1 h1:QmvMAjj2aEICytGiWzmxoE0x2KZvE0fvmqMOfy2tjT8=
 github.com/agext/levenshtein v1.2.1/go.mod h1:JEDfjyjHDjOF/1e4FlBE/PkbqA9OfWu2ki2W0IB5558=
@@ -552,6 +552,8 @@ github.com/lestrrat-go/strftime v1.0.6/go.mod h1:f7jQKgV5nnJpYgdEasS+/y7EsTb8ykN
 github.com/lestrrat/go-envload v0.0.0-20180220120943-6ed08b54a570/go.mod h1:BLt8L9ld7wVsvEWQbuLrUZnCMnUmLZ+CGDzKtclrTlE=
 github.com/lestrrat/go-file-rotatelogs v0.0.0-20180223000712-d3151e2a480f/go.mod h1:UGmTpUd3rjbtfIpwAPrcfmGf/Z1HS95TATB+m57TPB8=
 github.com/lestrrat/go-strftime v0.0.0-20180220042222-ba3bf9c1d042/go.mod h1:TPpsiPUEh0zFL1Snz4crhMlBe60PYxRHr5oFF3rRYg0=
+github.com/lib/pq v1.10.7 h1:p7ZhMD+KsSRozJr34udlUrhboJwWAgCg34+/ZZNvZZw=
+github.com/lib/pq v1.10.7/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
 github.com/lightstep/lightstep-tracer-common/golang/gogo v0.0.0-20190605223551-bc2310a04743/go.mod h1:qklhhLq1aX+mtWk9cPHPzaBjWImj5ULL6C7HFJtXQMM=
 github.com/lightstep/lightstep-tracer-go v0.18.1/go.mod h1:jlF1pusYV4pidLvZ+XD0UBX0ZE6WURAspgAczcDHrL4=
 github.com/lyft/protoc-gen-validate v0.0.13/go.mod h1:XbGvPuh87YZc5TdIa2/I4pLk0QoUACkjt2znoq26NVQ=
