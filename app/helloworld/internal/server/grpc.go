@@ -39,7 +39,7 @@ func NewGRPCServer(c *conf.Server, services *service.Services, bundle *localize.
 			localize.I18N(bundle),
 			validate.Validator(),
 			jwt.Server(func(token *jwtv4.Token) (interface{}, error) {
-				return []byte(c.Grpc.AuthKey), nil
+				return []byte(c.Grpc.AuthKey.Value), nil
 			}),
 			metrics.Server(),
 		),

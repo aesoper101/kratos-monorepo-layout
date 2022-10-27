@@ -13,17 +13,36 @@ import (
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/i18n"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/server"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/service"
-	"github.com/aesoper101/kratos-utils/protobuf/types/confpb"
-	"github.com/go-kratos/kratos/v2"
-	"github.com/go-kratos/kratos/v2/log"
+	"github.com/aesoper101/kratos-utils/bootstrap"
 )
 
 // Injectors from wire.go:
 
 // wireApp init kratos application.
-func wireApp(confServer *conf.Server, confData *conf.Data, registry *confpb.Registry, logger log.Logger) (*kratos.App, func(), error) {
-	dataData, cleanup, err := data.NewData(confData, logger)
+func wireApp(cfg bootstrap.ConfigFlags, srvInfo *bootstrap.ServiceInfo) (*bootstrap.App, func(), error) {
+	configLoader, cleanup, err := conf.NewConfigLoader(cfg)
 	if err != nil {
+		return nil, nil, err
+	}
+	confBootstrap := conf.GetConfig(configLoader)
+	openSergo := conf.GetOpenSergoConfig(confBootstrap)
+	registry := conf.GetRegistryConfig(confBootstrap)
+	tracer := conf.GetTracerConfig(confBootstrap)
+	sentry := conf.GetSentryConfig(confBootstrap)
+	log := conf.GetLogConfig(confBootstrap)
+	logger := bootstrap.NewLoggerProvide(log, srvInfo)
+	appConfig := &bootstrap.AppConfig{
+		Opensergo: openSergo,
+		Registry:  registry,
+		Tracer:    tracer,
+		Sentry:    sentry,
+		Logger:    logger,
+	}
+	confServer := conf.GetServerConfig(confBootstrap)
+	confData := conf.GetDataBaseConfig(confBootstrap)
+	dataData, cleanup2, err := data.NewData(confData, logger)
+	if err != nil {
+		cleanup()
 		return nil, nil, err
 	}
 	greeterRepo := data.NewGreeterRepo(dataData, logger)
@@ -34,13 +53,16 @@ func wireApp(confServer *conf.Server, confData *conf.Data, registry *confpb.Regi
 	}
 	i18nBundle, err := i18n.NewI18nBundle()
 	if err != nil {
+		cleanup2()
 		cleanup()
 		return nil, nil, err
 	}
 	httpServer := server.NewHTTPServer(confServer, services, i18nBundle, logger)
 	grpcServer := server.NewGRPCServer(confServer, services, i18nBundle, logger)
-	app := newApp(logger, httpServer, grpcServer, registry)
+	v := server.NewServers(httpServer, grpcServer)
+	app := bootstrap.NewApp(srvInfo, appConfig, v...)
 	return app, func() {
+		cleanup2()
 		cleanup()
 	}, nil
 }

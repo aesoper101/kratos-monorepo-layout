@@ -62,6 +62,8 @@ github.com/aesoper101/go-utils v0.0.0-20220803075833-0a6959df6214 h1:z23xCUVW/P0
 github.com/aesoper101/go-utils v0.0.0-20220803075833-0a6959df6214/go.mod h1:1hL6h7tFVHppFe1at9E8pJNeL5JSVybtz51R3ysSVtw=
 github.com/aesoper101/kratos-utils v0.0.0-20221027093057-f7ade93facae h1:717S6Y16VaBWklgSqABpraLlvgDpdQ+1Po2Xss+bdbU=
 github.com/aesoper101/kratos-utils v0.0.0-20221027093057-f7ade93facae/go.mod h1:dOI6zQz+FyZoC0mWR300qBQJp6+qVvByjy7T18XUfTU=
+github.com/aesoper101/kratos-utils v0.0.0-20221027152849-e4bd7ce6697c h1:jHxqhH4A099Yt92cCPHlHXnbzwr3kp+XT9/DEN/uZt0=
+github.com/aesoper101/kratos-utils v0.0.0-20221027152849-e4bd7ce6697c/go.mod h1:dOI6zQz+FyZoC0mWR300qBQJp6+qVvByjy7T18XUfTU=
 github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5/go.mod h1:SkGFH1ia65gfNATL8TAiHDNxPzPdmEL5uirI2Uyuz6c=
 github.com/agext/levenshtein v1.2.1 h1:QmvMAjj2aEICytGiWzmxoE0x2KZvE0fvmqMOfy2tjT8=
 github.com/agext/levenshtein v1.2.1/go.mod h1:JEDfjyjHDjOF/1e4FlBE/PkbqA9OfWu2ki2W0IB5558=

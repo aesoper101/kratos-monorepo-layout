@@ -12,13 +12,19 @@ import (
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/i18n"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/server"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/service"
-	"github.com/aesoper101/kratos-utils/protobuf/types/confpb"
-	"github.com/go-kratos/kratos/v2"
-	"github.com/go-kratos/kratos/v2/log"
+	"github.com/aesoper101/kratos-utils/bootstrap"
 	"github.com/google/wire"
 )
 
 // wireApp init kratos application.
-func wireApp(*conf.Server, *conf.Data, *confpb.Registry, log.Logger) (*kratos.App, func(), error) {
-	panic(wire.Build(server.ProviderSet, data.ProviderSet, biz.ProviderSet, service.ProviderSet, i18n.ProviderSet, newApp))
+func wireApp(cfg bootstrap.ConfigFlags, srvInfo *bootstrap.ServiceInfo) (*bootstrap.App, func(), error) {
+	panic(wire.Build(
+		server.ProviderSet,
+		data.ProviderSet,
+		biz.ProviderSet,
+		service.ProviderSet,
+		i18n.ProviderSet,
+		conf.ProviderSet,
+		bootstrap.ProviderSet,
+	))
 }

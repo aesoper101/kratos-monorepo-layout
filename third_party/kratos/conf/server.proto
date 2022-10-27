@@ -5,23 +5,24 @@ package kratos.conf;
 option go_package = "github.com/aesoper101/kratos-utils/protobuf/types/confpb;confpb";
 
 import "google/protobuf/duration.proto";
+import "google/protobuf/wrappers.proto";
 
 message HTTP {
   string network = 1;
   string addr = 2;
-  google.protobuf.Duration timeout = 3;
-  PprofSettings pprof = 4;
-  MetricsSettings metrics = 5;
-  SwaggerSettings swagger = 6;
-  TLSConfig tls = 7;
+  optional google.protobuf.Duration timeout = 3;
+  optional PprofSettings pprof = 4;
+  optional MetricsSettings metrics = 5;
+  optional SwaggerSettings swagger = 6;
+  optional TLSConfig tls = 7;
 }
 
 message GRPC {
   string network = 1;
   string addr = 2;
-  google.protobuf.Duration timeout = 3;
-  TLSConfig tls = 4;
-  string auth_key = 5;
+  optional google.protobuf.Duration timeout = 3;
+  optional TLSConfig tls = 4;
+  google.protobuf.StringValue auth_key = 5;
 }
 
 message MetricsSettings {
