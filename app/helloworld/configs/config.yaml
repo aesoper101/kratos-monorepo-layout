@@ -12,8 +12,10 @@ server:
 
 data:
   database:
-    driver: mysql
-    source: root:root@tcp(127.0.0.1:3306)/test
+#    driver: mysql
+#    source: root:root@tcp(127.0.0.1:3306)/test
+    driver: postgres
+    source: host=127.0.0.1 port=5432 user=root dbname=idaas password=root sslmode=disable
   redis:
     addr: 127.0.0.1:6379
     read_timeout:

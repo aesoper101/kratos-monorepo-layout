@@ -1,5 +1,16 @@
 version: "3.7"
 services:
+  postgresd:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=idaas
+    networks:
+      - intranet
+
   mysql:
     image: mysql:latest
     restart: always
@@ -41,3 +52,7 @@ services:
       - "9000:9000"
     volumes:
       - /data/conf:./app/helloworld/configs
+networks:
+  intranet:
+#volumes:
+#  sqlite:
