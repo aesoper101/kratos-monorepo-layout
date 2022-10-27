@@ -10,6 +10,7 @@ import (
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/biz"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/conf"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data"
+	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/i18n"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/server"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/service"
 	"github.com/aesoper101/kratos-utils/protobuf/types/confpb"
@@ -31,8 +32,13 @@ func wireApp(confServer *conf.Server, confData *conf.Data, registry *confpb.Regi
 	services := &service.Services{
 		GreeterService: greeterService,
 	}
-	httpServer := server.NewHTTPServer(confServer, services, logger)
-	grpcServer := server.NewGRPCServer(confServer, services, logger)
+	i18nBundle, err := i18n.NewI18nBundle()
+	if err != nil {
+		cleanup()
+		return nil, nil, err
+	}
+	httpServer := server.NewHTTPServer(confServer, services, i18nBundle, logger)
+	grpcServer := server.NewGRPCServer(confServer, services, i18nBundle, logger)
 	app := newApp(logger, httpServer, grpcServer, registry)
 	return app, func() {
 		cleanup()
