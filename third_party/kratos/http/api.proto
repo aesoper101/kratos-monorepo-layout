@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package kratos.http;
+
+import "google/protobuf/any.proto";
+import "errors/errors.proto";
+
+option go_package = "github.com/aesoper101/kratos-utils/protobuf/types/httppb;httppb";
+
+message OperationResponse {
+  bool success = 1;
+}
+
+message FuzzySearchRequest {
+  string Keywords = 1;
+  repeated string field = 2;
+}
+
+message AdvancedFilterRequest {
+  string field = 1;
+  string operator = 2;
+  google.protobuf.Any value = 3;
+}
+
+message SortRequest {
+  string field = 1;
+  string order = 2;
+}
+
+
+enum APIErrorReason {
+  option (errors.default_code) = 500;
+
+  BAD_REQUEST = 0 [(errors.code) = 400];
+  AUTHENTICATION_FAILED = 1 [(errors.code) = 401];
+  AUTHORIZATION_FAILED = 2 [(errors.code) = 403];
+  NOT_FOUND = 3 [(errors.code) = 404];
+  METHOD_NOT_ALLOWED = 4 [(errors.code) = 405];
+  NOT_ACCEPTABLE = 5 [(errors.code) = 406];
+  REQUEST_TIMEOUT = 6 [(errors.code) = 408];
+  CONFLICT = 7 [(errors.code) = 409];
+  GONE = 8 [(errors.code) = 410];
+  LENGTH_REQUIRED = 9 [(errors.code) = 411];
+  PRECONDITION_FAILED = 10 [(errors.code) = 412];
+  REQUEST_ENTITY_TOO_LARGE = 11 [(errors.code) = 413];
+  REQUEST_URI_TOO_LONG = 12 [(errors.code) = 414];
+  UNSUPPORTED_MEDIA_TYPE = 13 [(errors.code) = 415];
+  REQUESTED_RANGE_NOT_SATISFIABLE = 14 [(errors.code) = 416];
+  EXPECTATION_FAILED = 15 [(errors.code) = 417];
+  MISDIRECTED_REQUEST = 16 [(errors.code) = 421];
+  UNPROCESSABLE_ENTITY = 17 [(errors.code) = 422];
+  LOCKED = 18 [(errors.code) = 423];
+  FAILED_DEPENDENCY = 19 [(errors.code) = 424];
+  UPGRADE_REQUIRED = 20 [(errors.code) = 426];
+  PRECONDITION_REQUIRED = 21 [(errors.code) = 428];
+  TOO_MANY_REQUESTS = 22 [(errors.code) = 429];
+  REQUEST_HEADER_FIELDS_TOO_LARGE = 23 [(errors.code) = 431];
+  UNAVAILABLE_FOR_LEGAL_REASONS = 24 [(errors.code) = 451];
+
+  INTERNAL_SERVER_ERROR = 25 [(errors.code) = 500];
+  NOT_IMPLEMENTED = 26 [(errors.code) = 501];
+  BAD_GATEWAY = 27 [(errors.code) = 502];
+  SERVICE_UNAVAILABLE = 28 [(errors.code) = 503];
+  GATEWAY_TIMEOUT = 29 [(errors.code) = 504];
+  HTTP_VERSION_NOT_SUPPORTED = 30 [(errors.code) = 505];
+  VARIANT_ALSO_NEGOTIATES = 31 [(errors.code) = 506];
+  INSUFFICIENT_STORAGE = 32 [(errors.code) = 507];
+  LOOP_DETECTED = 33 [(errors.code) = 508];
+  NOT_EXTENDED = 34 [(errors.code) = 510];
+  NETWORK_AUTHENTICATION_REQUIRED = 35 [(errors.code) = 511];
+
+}
+
