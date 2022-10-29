@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package kratos.http;
+
+import "google/protobuf/any.proto";
+
+option go_package = "github.com/aesoper101/kratos-utils/protobuf/types/httppb;httppb";
+
+message OperationResponse {
+  bool success = 1;
+}
+
+message FuzzySearchRequest {
+  string Keywords = 1;
+  repeated string field = 2;
+}
+
+message AdvancedFilterRequest {
+  string field = 1;
+  string operator = 2;
+  google.protobuf.Any value = 3;
+}
+
+message SortRequest {
+  string field = 1;
+  string order = 2;
+}
+
+
+
+

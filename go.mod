@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	entgo.io/ent v0.11.3
-	github.com/aesoper101/kratos-utils v0.0.0-20221027152849-e4bd7ce6697c
+	github.com/aesoper101/kratos-utils v0.0.0-20221029151034-49f7f8f82483
 	github.com/go-kratos/kratos/v2 v2.5.1
 	github.com/go-kratos/sentry v0.0.0-20211021071616-de3a2011c4e4
 	github.com/go-sql-driver/mysql v1.6.0
@@ -24,7 +24,7 @@ require (
 	github.com/BurntSushi/toml v1.2.0 // indirect
 	github.com/Shopify/sarama v1.36.0 // indirect
 	github.com/StackExchange/wmi v1.2.1 // indirect
-	github.com/aesoper101/go-utils v0.0.0-20220803075833-0a6959df6214 // indirect
+	github.com/aesoper101/go-utils v0.0.0-20221024042047-e8a00f102bd5 // indirect
 	github.com/agext/levenshtein v1.2.1 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.18 // indirect
 	github.com/aliyun/aliyun-log-go-sdk v0.1.37 // indirect
