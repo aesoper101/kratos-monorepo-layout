@@ -60,10 +60,17 @@ github.com/StackExchange/wmi v1.2.1/go.mod h1:rcmrprowKIVzvc+NUiLncP2uuArMWLCbu9
 github.com/VividCortex/gohistogram v1.0.0/go.mod h1:Pf5mBqqDxYaXu3hDrrU+w6nw50o/4+TcAqDqk/vUH7g=
 github.com/aesoper101/go-utils v0.0.0-20221024042047-e8a00f102bd5 h1:fgutjcl67E+PqNHyEqMnuvk+5Jq4/bPYZhczaVvqFcA=
 github.com/aesoper101/go-utils v0.0.0-20221024042047-e8a00f102bd5/go.mod h1:GFACjnmWorAy3OD1C5egYVJqHT4C4GkQK+bJvVRc2hk=
+github.com/aesoper101/go-utils v0.0.0-20221030041850-fa996fed123d/go.mod h1:GFACjnmWorAy3OD1C5egYVJqHT4C4GkQK+bJvVRc2hk=
 github.com/aesoper101/kratos-utils v0.0.0-20221029145654-9813d560711c h1:1Ova+C4dzbbr6xAGdaWJTomGSrrBtdqKeQwNb6CpLCQ=
 github.com/aesoper101/kratos-utils v0.0.0-20221029145654-9813d560711c/go.mod h1:dbe1tRZNDvSW4TSltSwnYGy1nFilhxUAOhK+GqCpHSQ=
 github.com/aesoper101/kratos-utils v0.0.0-20221029151034-49f7f8f82483 h1:fBaMF7UCbHgz1jc3NSo7ji2+LFo6IGA/XhrlbQhqoQE=
 github.com/aesoper101/kratos-utils v0.0.0-20221029151034-49f7f8f82483/go.mod h1:5YIWvoIviddn8huYTzpAqIhSxTHzU3g6Hg/CTzrO40k=
+github.com/aesoper101/kratos-utils v0.0.0-20221029173158-7cb77e973bc3 h1:H0kedXAQHfvkQiiV+3p8+oY4oGKvqGdqXNjeKc3RBkw=
+github.com/aesoper101/kratos-utils v0.0.0-20221029173158-7cb77e973bc3/go.mod h1:5YIWvoIviddn8huYTzpAqIhSxTHzU3g6Hg/CTzrO40k=
+github.com/aesoper101/kratos-utils v0.0.0-20221029175834-c1517b9ee7d2 h1:Gpnwr7MHSoIcEmF30QSm2CkoA2I1zX9K0nzOQKpiIzM=
+github.com/aesoper101/kratos-utils v0.0.0-20221029175834-c1517b9ee7d2/go.mod h1:5YIWvoIviddn8huYTzpAqIhSxTHzU3g6Hg/CTzrO40k=
+github.com/aesoper101/kratos-utils v0.0.0-20221030042419-7f482bd190da h1:tCB5Wm3GzEwVya7PDbjTh17K02BOrvtedd+O2fnE7KA=
+github.com/aesoper101/kratos-utils v0.0.0-20221030042419-7f482bd190da/go.mod h1:qaYNuFTF7Tsa3qF9fUNfLDFVJKMzhWK8hTLAvQUDryE=
 github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5/go.mod h1:SkGFH1ia65gfNATL8TAiHDNxPzPdmEL5uirI2Uyuz6c=
 github.com/agext/levenshtein v1.2.1 h1:QmvMAjj2aEICytGiWzmxoE0x2KZvE0fvmqMOfy2tjT8=
 github.com/agext/levenshtein v1.2.1/go.mod h1:JEDfjyjHDjOF/1e4FlBE/PkbqA9OfWu2ki2W0IB5558=
