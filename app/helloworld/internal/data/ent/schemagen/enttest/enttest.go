@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent"
+	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/schemagen"
 	// required by schema hooks.
-	_ "github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/runtime"
+	_ "github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/schemagen/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/migrate"
+	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/schemagen/migrate"
 )
 
 type (
@@ -25,13 +25,13 @@ type (
 	Option func(*options)
 
 	options struct {
-		opts        []ent.Option
+		opts        []schemagen.Option
 		migrateOpts []schema.MigrateOption
 	}
 )
 
 // WithOptions forwards options to client creation.
-func WithOptions(opts ...ent.Option) Option {
+func WithOptions(opts ...schemagen.Option) Option {
 	return func(o *options) {
 		o.opts = append(o.opts, opts...)
 	}
@@ -52,10 +52,10 @@ func newOptions(opts []Option) *options {
 	return o
 }
 
-// Open calls ent.Open and auto-run migration.
-func Open(t TestingT, driverName, dataSourceName string, opts ...Option) *ent.Client {
+// Open calls schemagen.Open and auto-run migration.
+func Open(t TestingT, driverName, dataSourceName string, opts ...Option) *schemagen.Client {
 	o := newOptions(opts)
-	c, err := ent.Open(driverName, dataSourceName, o.opts...)
+	c, err := schemagen.Open(driverName, dataSourceName, o.opts...)
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
@@ -64,14 +64,14 @@ func Open(t TestingT, driverName, dataSourceName string, opts ...Option) *ent.Cl
 	return c
 }
 
-// NewClient calls ent.NewClient and auto-run migration.
-func NewClient(t TestingT, opts ...Option) *ent.Client {
+// NewClient calls schemagen.NewClient and auto-run migration.
+func NewClient(t TestingT, opts ...Option) *schemagen.Client {
 	o := newOptions(opts)
-	c := ent.NewClient(o.opts...)
+	c := schemagen.NewClient(o.opts...)
 	migrateSchema(t, c, o)
 	return c
 }
-func migrateSchema(t TestingT, c *ent.Client, o *options) {
+func migrateSchema(t TestingT, c *schemagen.Client, o *options) {
 	tables, err := schema.CopyTables(migrate.Tables)
 	if err != nil {
 		t.Error(err)
