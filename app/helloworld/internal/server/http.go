@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"github.com/aesoper101/go-utils/validatorx"
 	v1 "github.com/aesoper101/kratos-monorepo-layout/api/helloworld/v1"
 
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/conf"
@@ -40,7 +41,7 @@ func NewHTTPServer(c *conf.Server, services *service.Services, trans *ut.Univers
 			metadata.Server(),
 			requestid.Server(),
 			translator.Translate(translator.WithUniversalTranslator(trans)),
-			validate.Validator(),
+			validate.Validator(validate.WithRegisterDefaultTranslations(validatorx.RegisterDefaultTranslations)),
 			metrics.Server(),
 		),
 		http.Filter(

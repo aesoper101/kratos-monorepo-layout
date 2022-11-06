@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"github.com/aesoper101/go-utils/validatorx"
 	v1 "github.com/aesoper101/kratos-monorepo-layout/api/helloworld/v1"
 
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/conf"
@@ -43,7 +44,7 @@ func NewGRPCServer(c *conf.Server, services *service.Services, trans *ut.Univers
 				return []byte(c.Grpc.AuthKey.Value), nil
 			}),
 			translator.Translate(translator.WithUniversalTranslator(trans)),
-			validate.Validator(),
+			validate.Validator(validate.WithRegisterDefaultTranslations(validatorx.RegisterDefaultTranslations)),
 			metrics.Server(),
 		),
 	}
