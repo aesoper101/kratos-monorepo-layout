@@ -3,6 +3,7 @@ syntax = "proto3";
 package api.helloworld.v1;
 
 import "google/api/annotations.proto";
+import "govalidate/validate.proto";
 
 option go_package = "kratos-monorepo-layout/api/helloworld/v1;v1";
 option java_multiple_files = true;
@@ -20,7 +21,7 @@ service Greeter {
 
 // The request message containing the user's name.
 message HelloRequest {
-  string name = 1;
+  string name = 1 [(govalidate.validate) = "required,startswith=as"];
 }
 
 // The response message containing the greetings

@@ -4,6 +4,7 @@ import (
 	"context"
 	v1 "github.com/aesoper101/kratos-monorepo-layout/api/helloworld/v1"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/biz"
+	"github.com/aesoper101/kratos-utils/pkg/middleware/translator"
 )
 
 // GreeterService is a greeter service.
@@ -25,5 +26,6 @@ func (s *GreeterService) SayHello(ctx context.Context, in *v1.HelloRequest) (*v1
 		return nil, err
 	}
 
-	return &v1.HelloReply{Message: "Hello " + g.Hello}, nil
+	t := translator.FromTranslatorContext(ctx)
+	return &v1.HelloReply{Message: "Hello " + g.Hello + "," + t.T("days-left", "10")}, nil
 }
