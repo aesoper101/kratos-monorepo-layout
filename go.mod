@@ -23,7 +23,7 @@ require (
 	github.com/BurntSushi/toml v1.2.0 // indirect
 	github.com/Shopify/sarama v1.36.0 // indirect
 	github.com/StackExchange/wmi v1.2.1 // indirect
-	github.com/aesoper101/go-utils v0.0.0-20221030041850-fa996fed123d // indirect
+	github.com/aesoper101/go-utils v1.0.0 // indirect
 	github.com/aesoper101/kratos-utils v0.0.0-20221030042419-7f482bd190da // indirect
 	github.com/agext/levenshtein v1.2.1 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.18 // indirect
