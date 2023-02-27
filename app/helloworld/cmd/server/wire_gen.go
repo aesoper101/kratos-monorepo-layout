@@ -51,14 +51,14 @@ func wireApp(cfg bootstrap.ConfigFlags, srvInfo *bootstrap.ServiceInfo) (*bootst
 	services := &service.Services{
 		GreeterService: greeterService,
 	}
-	i18nBundle, err := i18n.NewI18nBundle()
+	universalTranslator, err := i18n.NewTranslator()
 	if err != nil {
 		cleanup2()
 		cleanup()
 		return nil, nil, err
 	}
-	httpServer := server.NewHTTPServer(confServer, services, i18nBundle, logger)
-	grpcServer := server.NewGRPCServer(confServer, services, i18nBundle, logger)
+	httpServer := server.NewHTTPServer(confServer, services, universalTranslator, logger)
+	grpcServer := server.NewGRPCServer(confServer, services, universalTranslator, logger)
 	v := server.NewServers(httpServer, grpcServer)
 	app := bootstrap.NewApp(srvInfo, appConfig, v...)
 	return app, func() {
