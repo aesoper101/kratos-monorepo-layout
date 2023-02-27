@@ -5,7 +5,7 @@ go 1.18
 require (
 	entgo.io/ent v0.11.8
 	github.com/aesoper101/go-utils v1.0.0
-	github.com/aesoper101/kratos-utils v1.0.1
+	github.com/aesoper101/kratos-utils v1.0.2
 	github.com/aesoper101/protoc-gen-govalidate v1.0.0
 	github.com/go-kratos/kratos/v2 v2.5.1
 	github.com/go-kratos/sentry v0.0.0-20211021071616-de3a2011c4e4
