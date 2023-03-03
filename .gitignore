@@ -18,3 +18,4 @@
 
 *.local.yaml
 *.local.yml
+.idea

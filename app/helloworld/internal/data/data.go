@@ -5,8 +5,8 @@ import (
 	entsql "entgo.io/ent/dialect/sql"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/biz"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/conf"
-	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/schemagen"
-	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/schemagen/migrate"
+	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/dbx"
+	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/dbx/migrate"
 	log2 "github.com/go-kratos/kratos/v2/log"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/wire"
@@ -19,7 +19,7 @@ var ProviderSet = wire.NewSet(NewData, NewTransaction, NewGreeterRepo)
 
 // Data .
 type Data struct {
-	db *schemagen.Database
+	db *dbx.Database
 }
 
 func NewTransaction(data *Data) biz.Transaction {
@@ -38,7 +38,7 @@ func NewData(c *conf.Data, logger log2.Logger) (*Data, func(), error) {
 		return nil, nil, err
 	}
 	// Run the auto migration tool.
-	client := schemagen.NewClient(schemagen.Driver(drv))
+	client := dbx.NewClient(dbx.Driver(drv))
 	err = client.Schema.Create(
 		context.Background(),
 		migrate.WithDropIndex(true),
@@ -68,7 +68,7 @@ func NewData(c *conf.Data, logger log2.Logger) (*Data, func(), error) {
 	}
 
 	d := &Data{
-		db: schemagen.NewDatabase(schemagen.Driver(drv)),
+		db: dbx.NewDatabase(dbx.Driver(drv)),
 	}
 
 	return d, func() {

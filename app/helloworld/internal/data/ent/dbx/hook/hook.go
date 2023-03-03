@@ -6,28 +6,27 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/schemagen"
+	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/dbx"
 )
 
 // The UserFunc type is an adapter to allow the use of ordinary
 // function as User mutator.
-type UserFunc func(context.Context, *schemagen.UserMutation) (schemagen.Value, error)
+type UserFunc func(context.Context, *dbx.UserMutation) (dbx.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f UserFunc) Mutate(ctx context.Context, m schemagen.Mutation) (schemagen.Value, error) {
-	mv, ok := m.(*schemagen.UserMutation)
-	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *schemagen.UserMutation", m)
+func (f UserFunc) Mutate(ctx context.Context, m dbx.Mutation) (dbx.Value, error) {
+	if mv, ok := m.(*dbx.UserMutation); ok {
+		return f(ctx, mv)
 	}
-	return f(ctx, mv)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *dbx.UserMutation", m)
 }
 
 // Condition is a hook condition function.
-type Condition func(context.Context, schemagen.Mutation) bool
+type Condition func(context.Context, dbx.Mutation) bool
 
 // And groups conditions with the AND operator.
 func And(first, second Condition, rest ...Condition) Condition {
-	return func(ctx context.Context, m schemagen.Mutation) bool {
+	return func(ctx context.Context, m dbx.Mutation) bool {
 		if !first(ctx, m) || !second(ctx, m) {
 			return false
 		}
@@ -42,7 +41,7 @@ func And(first, second Condition, rest ...Condition) Condition {
 
 // Or groups conditions with the OR operator.
 func Or(first, second Condition, rest ...Condition) Condition {
-	return func(ctx context.Context, m schemagen.Mutation) bool {
+	return func(ctx context.Context, m dbx.Mutation) bool {
 		if first(ctx, m) || second(ctx, m) {
 			return true
 		}
@@ -57,21 +56,21 @@ func Or(first, second Condition, rest ...Condition) Condition {
 
 // Not negates a given condition.
 func Not(cond Condition) Condition {
-	return func(ctx context.Context, m schemagen.Mutation) bool {
+	return func(ctx context.Context, m dbx.Mutation) bool {
 		return !cond(ctx, m)
 	}
 }
 
 // HasOp is a condition testing mutation operation.
-func HasOp(op schemagen.Op) Condition {
-	return func(_ context.Context, m schemagen.Mutation) bool {
+func HasOp(op dbx.Op) Condition {
+	return func(_ context.Context, m dbx.Mutation) bool {
 		return m.Op().Is(op)
 	}
 }
 
 // HasAddedFields is a condition validating `.AddedField` on fields.
 func HasAddedFields(field string, fields ...string) Condition {
-	return func(_ context.Context, m schemagen.Mutation) bool {
+	return func(_ context.Context, m dbx.Mutation) bool {
 		if _, exists := m.AddedField(field); !exists {
 			return false
 		}
@@ -86,7 +85,7 @@ func HasAddedFields(field string, fields ...string) Condition {
 
 // HasClearedFields is a condition validating `.FieldCleared` on fields.
 func HasClearedFields(field string, fields ...string) Condition {
-	return func(_ context.Context, m schemagen.Mutation) bool {
+	return func(_ context.Context, m dbx.Mutation) bool {
 		if exists := m.FieldCleared(field); !exists {
 			return false
 		}
@@ -101,7 +100,7 @@ func HasClearedFields(field string, fields ...string) Condition {
 
 // HasFields is a condition validating `.Field` on fields.
 func HasFields(field string, fields ...string) Condition {
-	return func(_ context.Context, m schemagen.Mutation) bool {
+	return func(_ context.Context, m dbx.Mutation) bool {
 		if _, exists := m.Field(field); !exists {
 			return false
 		}
@@ -117,9 +116,9 @@ func HasFields(field string, fields ...string) Condition {
 // If executes the given hook under condition.
 //
 //	hook.If(ComputeAverage, And(HasFields(...), HasAddedFields(...)))
-func If(hk schemagen.Hook, cond Condition) schemagen.Hook {
-	return func(next schemagen.Mutator) schemagen.Mutator {
-		return schemagen.MutateFunc(func(ctx context.Context, m schemagen.Mutation) (schemagen.Value, error) {
+func If(hk dbx.Hook, cond Condition) dbx.Hook {
+	return func(next dbx.Mutator) dbx.Mutator {
+		return dbx.MutateFunc(func(ctx context.Context, m dbx.Mutation) (dbx.Value, error) {
 			if cond(ctx, m) {
 				return hk(next).Mutate(ctx, m)
 			}
@@ -130,22 +129,22 @@ func If(hk schemagen.Hook, cond Condition) schemagen.Hook {
 
 // On executes the given hook only for the given operation.
 //
-//	hook.On(Log, schemagen.Delete|schemagen.Create)
-func On(hk schemagen.Hook, op schemagen.Op) schemagen.Hook {
+//	hook.On(Log, dbx.Delete|dbx.Create)
+func On(hk dbx.Hook, op dbx.Op) dbx.Hook {
 	return If(hk, HasOp(op))
 }
 
 // Unless skips the given hook only for the given operation.
 //
-//	hook.Unless(Log, schemagen.Update|schemagen.UpdateOne)
-func Unless(hk schemagen.Hook, op schemagen.Op) schemagen.Hook {
+//	hook.Unless(Log, dbx.Update|dbx.UpdateOne)
+func Unless(hk dbx.Hook, op dbx.Op) dbx.Hook {
 	return If(hk, Not(HasOp(op)))
 }
 
 // FixedError is a hook returning a fixed error.
-func FixedError(err error) schemagen.Hook {
-	return func(schemagen.Mutator) schemagen.Mutator {
-		return schemagen.MutateFunc(func(context.Context, schemagen.Mutation) (schemagen.Value, error) {
+func FixedError(err error) dbx.Hook {
+	return func(dbx.Mutator) dbx.Mutator {
+		return dbx.MutateFunc(func(context.Context, dbx.Mutation) (dbx.Value, error) {
 			return nil, err
 		})
 	}
@@ -153,12 +152,12 @@ func FixedError(err error) schemagen.Hook {
 
 // Reject returns a hook that rejects all operations that match op.
 //
-//	func (T) Hooks() []schemagen.Hook {
-//		return []schemagen.Hook{
-//			Reject(schemagen.Delete|schemagen.Update),
+//	func (T) Hooks() []dbx.Hook {
+//		return []dbx.Hook{
+//			Reject(dbx.Delete|dbx.Update),
 //		}
 //	}
-func Reject(op schemagen.Op) schemagen.Hook {
+func Reject(op dbx.Op) dbx.Hook {
 	hk := FixedError(fmt.Errorf("%s operation is not allowed", op))
 	return On(hk, op)
 }
@@ -166,17 +165,17 @@ func Reject(op schemagen.Op) schemagen.Hook {
 // Chain acts as a list of hooks and is effectively immutable.
 // Once created, it will always hold the same set of hooks in the same order.
 type Chain struct {
-	hooks []schemagen.Hook
+	hooks []dbx.Hook
 }
 
 // NewChain creates a new chain of hooks.
-func NewChain(hooks ...schemagen.Hook) Chain {
-	return Chain{append([]schemagen.Hook(nil), hooks...)}
+func NewChain(hooks ...dbx.Hook) Chain {
+	return Chain{append([]dbx.Hook(nil), hooks...)}
 }
 
 // Hook chains the list of hooks and returns the final hook.
-func (c Chain) Hook() schemagen.Hook {
-	return func(mutator schemagen.Mutator) schemagen.Mutator {
+func (c Chain) Hook() dbx.Hook {
+	return func(mutator dbx.Mutator) dbx.Mutator {
 		for i := len(c.hooks) - 1; i >= 0; i-- {
 			mutator = c.hooks[i](mutator)
 		}
@@ -186,8 +185,8 @@ func (c Chain) Hook() schemagen.Hook {
 
 // Append extends a chain, adding the specified hook
 // as the last ones in the mutation flow.
-func (c Chain) Append(hooks ...schemagen.Hook) Chain {
-	newHooks := make([]schemagen.Hook, 0, len(c.hooks)+len(hooks))
+func (c Chain) Append(hooks ...dbx.Hook) Chain {
+	newHooks := make([]dbx.Hook, 0, len(c.hooks)+len(hooks))
 	newHooks = append(newHooks, c.hooks...)
 	newHooks = append(newHooks, hooks...)
 	return Chain{newHooks}

@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/schemagen"
+	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/dbx"
 
 	"entgo.io/ent/entql"
 	"entgo.io/ent/privacy"
@@ -71,19 +71,19 @@ type (
 
 // QueryRuleFunc type is an adapter to allow the use of
 // ordinary functions as query rules.
-type QueryRuleFunc func(context.Context, schemagen.Query) error
+type QueryRuleFunc func(context.Context, dbx.Query) error
 
 // Eval returns f(ctx, q).
-func (f QueryRuleFunc) EvalQuery(ctx context.Context, q schemagen.Query) error {
+func (f QueryRuleFunc) EvalQuery(ctx context.Context, q dbx.Query) error {
 	return f(ctx, q)
 }
 
 // MutationRuleFunc type is an adapter which allows the use of
 // ordinary functions as mutation rules.
-type MutationRuleFunc func(context.Context, schemagen.Mutation) error
+type MutationRuleFunc func(context.Context, dbx.Mutation) error
 
 // EvalMutation returns f(ctx, m).
-func (f MutationRuleFunc) EvalMutation(ctx context.Context, m schemagen.Mutation) error {
+func (f MutationRuleFunc) EvalMutation(ctx context.Context, m dbx.Mutation) error {
 	return f(ctx, m)
 }
 
@@ -107,11 +107,11 @@ type fixedDecision struct {
 	decision error
 }
 
-func (f fixedDecision) EvalQuery(context.Context, schemagen.Query) error {
+func (f fixedDecision) EvalQuery(context.Context, dbx.Query) error {
 	return f.decision
 }
 
-func (f fixedDecision) EvalMutation(context.Context, schemagen.Mutation) error {
+func (f fixedDecision) EvalMutation(context.Context, dbx.Mutation) error {
 	return f.decision
 }
 
@@ -124,17 +124,17 @@ func ContextQueryMutationRule(eval func(context.Context) error) QueryMutationRul
 	return contextDecision{eval}
 }
 
-func (c contextDecision) EvalQuery(ctx context.Context, _ schemagen.Query) error {
+func (c contextDecision) EvalQuery(ctx context.Context, _ dbx.Query) error {
 	return c.eval(ctx)
 }
 
-func (c contextDecision) EvalMutation(ctx context.Context, _ schemagen.Mutation) error {
+func (c contextDecision) EvalMutation(ctx context.Context, _ dbx.Mutation) error {
 	return c.eval(ctx)
 }
 
 // OnMutationOperation evaluates the given rule only on a given mutation operation.
-func OnMutationOperation(rule MutationRule, op schemagen.Op) MutationRule {
-	return MutationRuleFunc(func(ctx context.Context, m schemagen.Mutation) error {
+func OnMutationOperation(rule MutationRule, op dbx.Op) MutationRule {
+	return MutationRuleFunc(func(ctx context.Context, m dbx.Mutation) error {
 		if m.Op().Is(op) {
 			return rule.EvalMutation(ctx, m)
 		}
@@ -143,35 +143,35 @@ func OnMutationOperation(rule MutationRule, op schemagen.Op) MutationRule {
 }
 
 // DenyMutationOperationRule returns a rule denying specified mutation operation.
-func DenyMutationOperationRule(op schemagen.Op) MutationRule {
-	rule := MutationRuleFunc(func(_ context.Context, m schemagen.Mutation) error {
-		return Denyf("schemagen/privacy: operation %s is not allowed", m.Op())
+func DenyMutationOperationRule(op dbx.Op) MutationRule {
+	rule := MutationRuleFunc(func(_ context.Context, m dbx.Mutation) error {
+		return Denyf("dbx/privacy: operation %s is not allowed", m.Op())
 	})
 	return OnMutationOperation(rule, op)
 }
 
 // The UserQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
-type UserQueryRuleFunc func(context.Context, *schemagen.UserQuery) error
+type UserQueryRuleFunc func(context.Context, *dbx.UserQuery) error
 
 // EvalQuery return f(ctx, q).
-func (f UserQueryRuleFunc) EvalQuery(ctx context.Context, q schemagen.Query) error {
-	if q, ok := q.(*schemagen.UserQuery); ok {
+func (f UserQueryRuleFunc) EvalQuery(ctx context.Context, q dbx.Query) error {
+	if q, ok := q.(*dbx.UserQuery); ok {
 		return f(ctx, q)
 	}
-	return Denyf("schemagen/privacy: unexpected query type %T, expect *schemagen.UserQuery", q)
+	return Denyf("dbx/privacy: unexpected query type %T, expect *dbx.UserQuery", q)
 }
 
 // The UserMutationRuleFunc type is an adapter to allow the use of ordinary
 // functions as a mutation rule.
-type UserMutationRuleFunc func(context.Context, *schemagen.UserMutation) error
+type UserMutationRuleFunc func(context.Context, *dbx.UserMutation) error
 
 // EvalMutation calls f(ctx, m).
-func (f UserMutationRuleFunc) EvalMutation(ctx context.Context, m schemagen.Mutation) error {
-	if m, ok := m.(*schemagen.UserMutation); ok {
+func (f UserMutationRuleFunc) EvalMutation(ctx context.Context, m dbx.Mutation) error {
+	if m, ok := m.(*dbx.UserMutation); ok {
 		return f(ctx, m)
 	}
-	return Denyf("schemagen/privacy: unexpected mutation type %T, expect *schemagen.UserMutation", m)
+	return Denyf("dbx/privacy: unexpected mutation type %T, expect *dbx.UserMutation", m)
 }
 
 type (
@@ -188,7 +188,7 @@ type (
 )
 
 // EvalQuery calls f(ctx, q) if the query implements the Filter interface, otherwise it is denied.
-func (f FilterFunc) EvalQuery(ctx context.Context, q schemagen.Query) error {
+func (f FilterFunc) EvalQuery(ctx context.Context, q dbx.Query) error {
 	fr, err := queryFilter(q)
 	if err != nil {
 		return err
@@ -197,7 +197,7 @@ func (f FilterFunc) EvalQuery(ctx context.Context, q schemagen.Query) error {
 }
 
 // EvalMutation calls f(ctx, q) if the mutation implements the Filter interface, otherwise it is denied.
-func (f FilterFunc) EvalMutation(ctx context.Context, m schemagen.Mutation) error {
+func (f FilterFunc) EvalMutation(ctx context.Context, m dbx.Mutation) error {
 	fr, err := mutationFilter(m)
 	if err != nil {
 		return err
@@ -207,20 +207,20 @@ func (f FilterFunc) EvalMutation(ctx context.Context, m schemagen.Mutation) erro
 
 var _ QueryMutationRule = FilterFunc(nil)
 
-func queryFilter(q schemagen.Query) (Filter, error) {
+func queryFilter(q dbx.Query) (Filter, error) {
 	switch q := q.(type) {
-	case *schemagen.UserQuery:
+	case *dbx.UserQuery:
 		return q.Filter(), nil
 	default:
-		return nil, Denyf("schemagen/privacy: unexpected query type %T for query filter", q)
+		return nil, Denyf("dbx/privacy: unexpected query type %T for query filter", q)
 	}
 }
 
-func mutationFilter(m schemagen.Mutation) (Filter, error) {
+func mutationFilter(m dbx.Mutation) (Filter, error) {
 	switch m := m.(type) {
-	case *schemagen.UserMutation:
+	case *dbx.UserMutation:
 		return m.Filter(), nil
 	default:
-		return nil, Denyf("schemagen/privacy: unexpected mutation type %T for mutation filter", m)
+		return nil, Denyf("dbx/privacy: unexpected mutation type %T for mutation filter", m)
 	}
 }

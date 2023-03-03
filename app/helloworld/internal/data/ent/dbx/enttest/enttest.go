@@ -5,12 +5,12 @@ package enttest
 import (
 	"context"
 
-	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/schemagen"
+	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/dbx"
 	// required by schema hooks.
-	_ "github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/schemagen/runtime"
+	_ "github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/dbx/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/schemagen/migrate"
+	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/data/ent/dbx/migrate"
 )
 
 type (
@@ -25,13 +25,13 @@ type (
 	Option func(*options)
 
 	options struct {
-		opts        []schemagen.Option
+		opts        []dbx.Option
 		migrateOpts []schema.MigrateOption
 	}
 )
 
 // WithOptions forwards options to client creation.
-func WithOptions(opts ...schemagen.Option) Option {
+func WithOptions(opts ...dbx.Option) Option {
 	return func(o *options) {
 		o.opts = append(o.opts, opts...)
 	}
@@ -52,10 +52,10 @@ func newOptions(opts []Option) *options {
 	return o
 }
 
-// Open calls schemagen.Open and auto-run migration.
-func Open(t TestingT, driverName, dataSourceName string, opts ...Option) *schemagen.Client {
+// Open calls dbx.Open and auto-run migration.
+func Open(t TestingT, driverName, dataSourceName string, opts ...Option) *dbx.Client {
 	o := newOptions(opts)
-	c, err := schemagen.Open(driverName, dataSourceName, o.opts...)
+	c, err := dbx.Open(driverName, dataSourceName, o.opts...)
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
@@ -64,14 +64,14 @@ func Open(t TestingT, driverName, dataSourceName string, opts ...Option) *schema
 	return c
 }
 
-// NewClient calls schemagen.NewClient and auto-run migration.
-func NewClient(t TestingT, opts ...Option) *schemagen.Client {
+// NewClient calls dbx.NewClient and auto-run migration.
+func NewClient(t TestingT, opts ...Option) *dbx.Client {
 	o := newOptions(opts)
-	c := schemagen.NewClient(o.opts...)
+	c := dbx.NewClient(o.opts...)
 	migrateSchema(t, c, o)
 	return c
 }
-func migrateSchema(t TestingT, c *schemagen.Client, o *options) {
+func migrateSchema(t TestingT, c *dbx.Client, o *options) {
 	tables, err := schema.CopyTables(migrate.Tables)
 	if err != nil {
 		t.Error(err)
